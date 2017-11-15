@@ -38,6 +38,15 @@ public class Docxscanner {
         System.out.print("Find: ");
         find=input.nextLine();
         
+        System.out.print("What is the directory ");
+        String filesDir=input.nextLine();
+        
+        System.out.print("What is the prefix of the files ");
+        String filesPrefix=input.nextLine();
+        
+        System.out.print("What is the extension of the files ");
+        String ext=input.nextLine();
+        
         System.out.print("Does the files naming have an offset?: ");
         String response=input.nextLine();
         
@@ -51,13 +60,13 @@ public class Docxscanner {
         for(int quantity=0+offset; quantity<noDirFiles+offset; quantity++){
         try {
             String number = setNumber(quantity);
-            reader = new BufferedReader( new FileReader("C:\\Users\\EbenezerG\\Documents\\test\\CC-06.04.1-"+number+".doc"));
+            reader = new BufferedReader( new FileReader(filesDir+"\\"+filesPrefix+number+"."+ext));
             ++counter1;
             while( (line = reader.readLine()) != null){
                 if (line.contains(find)) {
                     yes=true;
                     if(yes){
-                        reader = new BufferedReader( new FileReader("C:\\Users\\EbenezerG\\Documents\\test\\CC-06.04.1-"+number+".doc"));
+                        reader = new BufferedReader( new FileReader(filesDir+"\\"+filesPrefix+number+"."+ext));
                         while( (deliverables = reader.readLine()) != null){
                              if (deliverables.contains("Deliverables")) {
                                 doc=deliverables.substring(49, 70);
