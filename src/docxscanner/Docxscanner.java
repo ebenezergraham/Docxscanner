@@ -31,15 +31,14 @@ public class Docxscanner {
         String doc;
         int offset;
         int counter1=0,counter2=0,errors=0;
-        int noDirFiles=new File("C:\\Users\\EbenezerG\\Documents\\test").list().length;
-        System.out.println(filename+","+deliverables);
+        String filesDir;
         
         Scanner input=new Scanner(System.in);
         System.out.print("Find: ");
         find=input.nextLine();
         
         System.out.print("What is the directory ");
-        String filesDir=input.nextLine();
+        filesDir=input.nextLine();
         
         System.out.print("What is the prefix of the files ");
         String filesPrefix=input.nextLine();
@@ -56,6 +55,8 @@ public class Docxscanner {
         }else{
             offset=0;
         }
+        int noDirFiles=new File(filesDir).list().length;
+        System.out.println(filename+","+deliverables);
         
         for(int quantity=0+offset; quantity<noDirFiles+offset; quantity++){
         try {
@@ -65,17 +66,18 @@ public class Docxscanner {
             while( (line = reader.readLine()) != null){
                 if (line.contains(find)) {
                     yes=true;
-                    if(yes){
-                        reader = new BufferedReader( new FileReader(filesDir+"\\"+filesPrefix+number+"."+ext));
-                        while( (deliverables = reader.readLine()) != null){
-                             if (deliverables.contains("Deliverables")) {
-                                doc=deliverables.substring(49, 70);
-                                filename=deliverables.substring(49, 64);
-                                System.out.println(filename.trim()+","+doc.trim());
-                                ++counter2;
-                    }
-                }     
-            }
+//                    Change this logic
+//                    if(yes){
+//                        reader = new BufferedReader( new FileReader(filesDir+"\\"+filesPrefix+number+"."+ext));
+//                        while( (deliverables = reader.readLine()) != null){
+//                             if (deliverables.contains("Deliverables")) {
+//                                doc=deliverables.substring(49, 70);
+//                                filename=deliverables.substring(49, 64);
+//                                System.out.println(filename.trim()+","+doc.trim());
+//                                ++counter2;
+//                    }
+//                }     
+//            }
         }
       }
         } catch (FileNotFoundException e) {
