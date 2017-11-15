@@ -25,25 +25,37 @@ public class Docxscanner {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         BufferedReader reader;
         String line;
+        String find;
         String deliverables = "Deliverables";
         String filename="Filename";
         Boolean yes;
         String doc;
+        int offset;
         int counter1=0,counter2=0,errors=0;
+        int noDirFiles=new File("C:\\Users\\EbenezerG\\Documents\\test").list().length;
         System.out.println(filename+","+deliverables);
         
         Scanner input=new Scanner(System.in);
-        System.out.println("Offset");
-        int offset=input.nextInt();
-        int quantity;
-        int noDirFiles=new File("C:\\Users\\EbenezerG\\Documents\\test").list().length;
-        for(quantity=0+offset; quantity<noDirFiles+offset; quantity++){
+        System.out.print("Find: ");
+        find=input.nextLine();
+        
+        System.out.print("Does the files naming have an offset?: ");
+        String response=input.nextLine();
+        
+        if(response.equalsIgnoreCase("yes")){
+        System.out.print("Define offset number: ");
+        offset=input.nextInt();
+        }else{
+            offset=0;
+        }
+        
+        for(int quantity=0+offset; quantity<noDirFiles+offset; quantity++){
         try {
             String number = setNumber(quantity);
             reader = new BufferedReader( new FileReader("C:\\Users\\EbenezerG\\Documents\\test\\CC-06.04.1-"+number+".doc"));
             ++counter1;
             while( (line = reader.readLine()) != null){
-                if (line.contains("Manual Step")) {
+                if (line.contains(find)) {
                     yes=true;
                     if(yes){
                         reader = new BufferedReader( new FileReader("C:\\Users\\EbenezerG\\Documents\\test\\CC-06.04.1-"+number+".doc"));
@@ -51,13 +63,13 @@ public class Docxscanner {
                              if (deliverables.contains("Deliverables")) {
                                 doc=deliverables.substring(49, 70);
                                 filename=deliverables.substring(49, 64);
-                                
                                 System.out.println(filename.trim()+","+doc.trim());
+                                ++counter2;
                     }
                 }     
             }
-                    ++counter2;
-         }
+                    ;
+        }
       }
         } catch (FileNotFoundException e) {
             errors++;
@@ -67,11 +79,9 @@ public class Docxscanner {
             System.out.println(filename+" has an error");
         }
         }
-        System.out.println("\nSanity Check:");
-        System.out.println(counter2+" files had "+deliverables);
-        System.out.println(errors+" Files where had errors");
-        int total =counter1+errors;
-        System.out.println("But in total,"+total+" files where read out of 56"+noDirFiles); 
+        System.out.println("\nOverview and Sanity Check:");
+        System.out.println("But in total,"+counter1+" files got read out of "+noDirFiles+"\n"+counter2+" had \""+find+"\" in it!"); 
+        System.out.println(errors+" files had errors");
     }
     public static String setNumber(int x){
         String y;
